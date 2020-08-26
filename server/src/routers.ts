@@ -1,6 +1,6 @@
 import express from 'express';
-import ItemController from './controller/ItemController';
-import PointController from './controller/PointController';
+import ItemController from './controllers/item.controller';
+import PointController from './controllers/point.controller';
 
 const routers = express.Router();
 const itemController = new ItemController();
