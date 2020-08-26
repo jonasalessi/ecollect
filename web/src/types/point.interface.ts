@@ -1,9 +1,3 @@
-export interface Item {
-    id: number,
-    title: string,
-    image: string
-}
-
 export interface Point {
     name: string,
     email: string,

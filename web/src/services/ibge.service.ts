@@ -1,4 +1,4 @@
-import { State } from "../types/ibge";
+import { State } from "../types/ibge.interface";
 import axios from 'axios';
 
 

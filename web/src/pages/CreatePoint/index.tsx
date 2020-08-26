@@ -6,10 +6,10 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { Map, TileLayer, Popup, Marker } from 'react-leaflet';
 
 import { LeafletMouseEvent } from 'leaflet';
-import { Item } from '../../types/itemPoint';
-import { State, City } from '../../types/ibge';
-import { getItemsAvailableToDisplay, saveNewPoint } from '../../services/createPointService';
-import { getAllProvinces, getCitiesByProvince } from '../../services/ibgeService';
+import { Item } from '../../types/item.interface';
+import { State, City } from '../../types/ibge.interface';
+import { getItemsAvailableToDisplay, saveNewPoint } from '../../services/point.service';
+import { getAllProvinces, getCitiesByProvince } from '../../services/ibge.service';
 import { AxiosResponse } from 'axios';
 
 const CreatePoint = () => {
@@ -32,18 +32,18 @@ const CreatePoint = () => {
             setValues({ ...values, items: [...values.items, id] });
         }
     }
-    
+
     const handleMapClick = (e: LeafletMouseEvent) => {
         setPosition([e.latlng.lat, e.latlng.lng]);
     }
-    
+
     const submitForm = async (e: FormEvent) => {
         e.preventDefault();
         saveNewPoint(values, position)
             .then(() => history.push('/'))
             .catch(ex => alert("Error to saved"));
     }
-    
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((pos) => {
             setPosition([
@@ -52,30 +52,30 @@ const CreatePoint = () => {
             ]);
         });
     }, []);
-    
+
     useEffect(() => {
         getItemsAvailableToDisplay()
-        .then(({ data }: AxiosResponse<Item[]>) => {
-            setItems(data);
-        })
+            .then(({ data }: AxiosResponse<Item[]>) => {
+                setItems(data);
+            })
     }, []);
 
     useEffect(() => {
         getAllProvinces()
-        .then(({ data }: AxiosResponse<State[]>) => {
-            setStates(data);
-        });
+            .then(({ data }: AxiosResponse<State[]>) => {
+                setStates(data);
+            });
     }, []);
 
     useEffect(() => {
         if (values?.uf) {
             getCitiesByProvince(values.uf)
-            .then(({ data }: AxiosResponse<City[]>) => {
-                setCities(data.map(city => ({
-                    id: city.id,
-                    nome: city.nome
-                })));
-            });
+                .then(({ data }: AxiosResponse<City[]>) => {
+                    setCities(data.map(city => ({
+                        id: city.id,
+                        nome: city.nome
+                    })));
+                });
         }
     }, [values?.uf]);
 

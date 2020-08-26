@@ -1,5 +1,4 @@
 import api from "./api";
-import { Item } from "../types/itemPoint";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
