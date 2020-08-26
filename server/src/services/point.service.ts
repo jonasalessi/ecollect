@@ -11,7 +11,7 @@ class PointService {
         const items = await knex('item')
             .join('point_item', 'item.id', '=', 'point_item.id_item')
             .where('point_item.id_point', id);
-        console.log({ ...point, items });
+
         return { ...point, items };
     }
 
@@ -22,7 +22,6 @@ class PointService {
     async _savePoint(resolve: Function, reject: Function, point: Point) {
         const tx = await knex.transaction();
         try {
-            debugger;
             const { items } = point;
             const { city, email, latitude, longitude, name, uf, whatsapp } = point;
             const ids = await tx('point').insert({
@@ -33,7 +32,7 @@ class PointService {
                 id_point: ids[0],
             }));
             if (itemsPoints) {
-                tx('point_item').insert(itemsPoints);
+                await tx('point_item').insert(itemsPoints);
             }
             tx.commit();
             resolve();
