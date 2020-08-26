@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "knex:seed": "knex --knexfile knexfile.ts seed:run",
-    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest"
+    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
+    "pretest": "set NODE_ENV=test & knex --knexfile knexfile.ts migrate:latest & knex --knexfile knexfile.ts seed:run",
+    "test": "set NODE_ENV=test & jest",
+    "posttest": "set NODE_ENV=test & knex migrate:rollback"
   },
   "author": "Jonas Alessi",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "knex": "^0.21.1",
     "sqlite3": "^4.2.0"
@@ -19,6 +23,8 @@
   "devDependencies": {
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.10",
+    "jest": "^26.4.2",
     "ts-node": "^8.10.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.3"
